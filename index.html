@@ -29,7 +29,7 @@
         /* Textures et fonds */
         .bg-paper { background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png'); }
         .hero-bg { 
-            background: linear-gradient(rgba(45, 27, 14, 0.7), rgba(45, 27, 14, 0.85)), url('https://images.unsplash.com/photo-1541518763669-27fef04b14ea?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80'); 
+            background: linear-gradient(rgba(45, 27, 14, 0.5), rgba(45, 27, 14, 0.7)), url('https://i.postimg.cc/c4j4SmHB/sannin1.jpg'); 
             background-size: cover; 
             background-position: center; 
         }
@@ -214,7 +214,7 @@
                             <span class="bg-orange-700 text-white text-[9px] font-black px-4 py-1.5 tracking-[0.2em] uppercase">Artesanal</span>
                             <h3 id="txt-masa-title" class="font-header text-xl uppercase text-stone-800">Cocina Tradicional</h3>
                         </div>
-                        <p id="txt-masa-desc" class="text-stone-500 text-sm leading-relaxed max-w-xl italic font-light">Recetas familiares transmitidas por generations. Utilizamos ingredientes frescos y especias traídas directement del Líbano.</p>
+                        <p id="txt-masa-desc" class="text-stone-500 text-sm leading-relaxed max-w-xl italic font-light">Recetas familiares transmitidas por generaciones. Utilizamos ingredientes frescos y especias traídas directamente del Líbano.</p>
                     </div>
                 </div>
             </div>
@@ -265,7 +265,7 @@
         import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Initialisation de Firebase
+        // Configuration Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyD7tNaCFZqG9TewVmDLbUw5io4i11n22X0",
             authDomain: "sannin-3c77c.firebaseapp.com",
@@ -277,7 +277,7 @@
         };
 
         const app = initializeApp(firebaseConfig);
-        const auth = auth = getAuth(app);
+        const auth = getAuth(app);
         const db = getFirestore(app);
         const appId = "sannin-restaurant-pro-v1";
 
@@ -288,15 +288,69 @@
         window.currentLang = localStorage.getItem('sanninLang') || 'es';
 
         const i18n = {
-            es: { sub: "Desde 1993 compartiendo cultura en Gràcia", masaT: "Cocina Tradicional", masaD: "Recetas familiares transmitidas por generaciones. Utilizamos ingredientes frescos y especias traídas directement del Líbano.", hT: "Horarios", navMenu: "La Carta", navHorarios: "Ubicación", btnExplore: "Explorar Menú", starsTitle: "Sugerencias <br><span class='text-orange-400 italic font-accent lowercase text-2xl normal-case'>del chef</span>", loading: "Preparando delicias..." },
+            es: { sub: "Desde 1993 compartiendo cultura en Gràcia", masaT: "Cocina Tradicional", masaD: "Recetas familiares transmitidas por generaciones. Utilizamos ingredientes frescos y especias traídas directamente del Líbano.", hT: "Horarios", navMenu: "La Carta", navHorarios: "Ubicación", btnExplore: "Explorar Menú", starsTitle: "Sugerencias <br><span class='text-orange-400 italic font-accent lowercase text-2xl normal-case'>del chef</span>", loading: "Preparando delicias..." },
             cat: { sub: "Des de 1993 compartint cultura a Gràcia", masaT: "Cuina Tradicional", masaD: "Receptes familiars transmeses per generacions. Utilitzem ingredients frescos i espècies portades directament del Líban.", hT: "Horaris", navMenu: "La Carta", navHorarios: "Ubicació", btnExplore: "Explorar Menú", starsTitle: "Suggeriments <br><span class='text-orange-400 italic font-accent lowercase text-2xl normal-case'>del xef</span>", loading: "Preparant delícies..." },
             en: { sub: "Sharing culture in Gràcia since 1993", masaT: "Traditional Kitchen", masaD: "Family recipes passed down through generations. We use fresh ingredients and spices brought directly from Lebanon.", hT: "Opening Hours", navMenu: "The Menu", navHorarios: "Location", btnExplore: "Explore Menu", starsTitle: "Chef's <br><span class='text-orange-400 italic font-accent lowercase text-2xl normal-case'>specials</span>", loading: "Loading delicacies..." }
         };
 
         const defaultMenu = {
-            estrellas: [ { id: 1, name: "MIXTO ESPECIAL SANNIN", price: "18,40€", desc: "Shawarma, homos, baba gagnuc, kebe, falafel y ensalada.", available: true } ],
-            entrantes: [ { id: 2, name: "HUMUS", price: "7,90€", desc: "Crema de garbanzos con sésamo.", available: true } ],
-            platos: [], bocadillos: [], postres: [], bebidas: []
+            estrellas: [ 
+                { id: 1, name: "MIXTO ESPECIAL SANNIN", price: "18,40€", desc: "Shawarma, homos, baba gagnuc, kebe, falafel y ensalada variada.", available: true },
+                { id: 2, name: "COUS-COUS POLLO", price: "17,90€", desc: "Pollo, calabacín, zanahoria, garbanzos y sémola fina cocinado a fuego lento.", available: true },
+                { id: 3, name: "HOMOS LAHME", price: "8,90€", desc: "Crema de garbanzos con cobertura de carne picada de ternera y piñones.", available: true },
+                { id: 4, name: "WARAK INAB", price: "8,50€", desc: "Rollos de hojas de parra rellenas de arroz y verduras, con escalivada.", available: true }
+            ],
+            entrantes: [ 
+                { id: 5, name: "BABA GAGNUC", price: "7,90€", desc: "Berenjena asada mezclada con crema de sésamo y limón.", available: true },
+                { id: 6, name: "HUMUS PLATO", price: "7,90€", desc: "Crema de garbanzos molidos con crema de sésamo y limón.", available: true },
+                { id: 7, name: "FALAFEL CON ENSALADA", price: "10,50€", desc: "6 Croquetas vegetales con salsa de yogur y ensalada fresca.", available: true },
+                { id: 8, name: "TABULE", price: "10,40€", desc: "Ensalada de perejil, tomate, sémola de trigo y menta fresca.", available: true },
+                { id: 9, name: "MOHAMARA", price: "7,90€", desc: "Picada de nueces, pimientos y melaza de granada. Picante.", available: true },
+                { id: 10, name: "MAGMUS", price: "7,90€", desc: "Escalivada de berenjena asada, pimientos y zumo de granada.", available: true },
+                { id: 11, name: "ENSALADA BARSAKAN", price: "9,40€", desc: "Mezclum con tomate, pepino, queso de cabra y feta.", available: true },
+                { id: 12, name: "JAIKI", price: "7,90€", desc: "Crema de queso fresco con menta y pepino rallado.", available: true },
+                { id: 13, name: "PATATAS BRAVAS", price: "5,40€", desc: "Patatas bravas caseras con nuestra selecta salsa brava.", available: true },
+                { id: 14, name: "ARAYES GIBNE", price: "9,90€", desc: "Quesadilla libanesa con 5 quesos, tomate y cebolla.", available: true },
+                { id: 15, name: "QUESADILLA AL PICANTE", price: "9,90€", desc: "Torta rellena con ternera picada especiada, quesos y picante.", available: true },
+                { id: 16, name: "FATAYER SABANEC", price: "3,90€", desc: "Empanadilla artesana de espinaca.", available: true },
+                { id: 17, name: "KEBE (UNIDAD)", price: "3,90€", desc: "Croqueta de sémola de trigo rellena con carne picada.", available: true },
+                { id: 18, name: "HUMUS (MEDIO PLATO)", price: "5,80€", desc: "Ración individual de nuestra crema de garbanzos.", available: true }
+            ],
+            platos: [
+                { id: 19, name: "SHAWARMA PLATO", price: "11,90€", desc: "Cordero asado a la libanesa con ensalada variada fresca.", available: true },
+                { id: 20, name: "SHAWARMA CON ARROZ", price: "11,90€", desc: "Cordero asado a la libanesa acompañado de arroz.", available: true },
+                { id: 21, name: "XIX TAWUK PLATO", price: "11,90€", desc: "Pechuga de pollo adobada con ajo y cilantro, con arroz o ensalada.", available: true },
+                { id: 22, name: "KAFTA PLATO", price: "11,90€", desc: "Ternera picada especiada a la plancha con acompañamiento.", available: true },
+                { id: 23, name: "KEBE PLATO", price: "11,90€", desc: "3 Croquetas de kebe acompañadas de ensalada fresca aliñada.", available: true },
+                { id: 24, name: "MOUSSAKA DE CARNE", price: "15,40€", desc: "Pastel de ternera, berenjena, bechamel y queso gratinado.", available: true },
+                { id: 25, name: "MOUSSAKA VEGETAL", price: "10,40€", desc: "Guiso de berenjena, pimientos y calabacín con arroz.", available: true },
+                { id: 26, name: "COMBINADO VEGETAL", price: "15,90€", desc: "Falafel, humus, baba gagnuc, warak inab y ensalada.", available: true },
+                { id: 27, name: "COMBINADO XIX TAWUK", price: "16,40€", desc: "Pollo adobado con humus, baba gagnuc y ensalada.", available: true },
+                { id: 28, name: "COMBINADO SHAWARMA", price: "16,40€", desc: "Cordero con salsa yogur, humus, baba gagnuc y ensalada.", available: true },
+                { id: 29, name: "COMBINADO KAFTA", price: "16,40€", desc: "Ternera picada con humus, baba gagnuc y ensalada.", available: true },
+                { id: 30, name: "COUS-COUS VEGETAL", price: "15,90€", desc: "Sémola con verduras de temporada en rico caldo vegetal.", available: true }
+            ],
+            bocadillos: [
+                { id: 31, name: "SHAWARMA CASERO", price: "8,40€", desc: "Cordero asado, verdurita y salsa blanca en pan pita.", available: true },
+                { id: 32, name: "FALAFEL VEGETAL", price: "7,90€", desc: "Croquetas vegetales, verdura y salsa blanca en pan pita.", available: true },
+                { id: 33, name: "KAFTA BOCADILLO", price: "8,40€", desc: "Ternera especiada a la plancha con su verdura y salsa.", available: true },
+                { id: 34, name: "XIX TAWUK BOCADILLO", price: "8,40€", desc: "Pollo adobado al ajo y cilantro con verdura y salsa blanca.", available: true }
+            ],
+            postres: [
+                { id: 35, name: "BAKLAVA", price: "1,90€", desc: "Hojaldre con pistachos, nueces y almíbar de azahar.", available: true },
+                { id: 36, name: "AISH AS-SARAYA", price: "4,90€", desc: "Base de tostadas en almíbar, crema de nata y pistachos.", available: true },
+                { id: 37, name: "TAMER", price: "1,90€", desc: "Galleta artesana con dátiles y sésamo.", available: true },
+                { id: 38, name: "BARASIK", price: "1,90€", desc: "Galleta fina con sésamo y pistachos.", available: true }
+            ],
+            bebidas: [
+                { id: 39, name: "CERVEZA LIBANESA", price: "3,00€", desc: "Cerveza Almaza de importación (botella).", available: true },
+                { id: 40, name: "VINO LIBANÉS", price: "19,00€", desc: "Selección de vinos tintos del Valle de la Becá.", available: true },
+                { id: 41, name: "COCA-COLA / FANTA", price: "2,50€", desc: "Lata 0.33L.", available: true },
+                { id: 42, name: "ESTRELLA DAMM", price: "2,50€", desc: "Cerveza local en lata.", available: true },
+                { id: 43, name: "AGUA 0.50L", price: "1,80€", desc: "Agua mineral embotellada.", available: true },
+                { id: 44, name: "CAVA BRUT CASA", price: "15,00€", desc: "Botella de cava selección de la casa.", available: true },
+                { id: 45, name: "VINO DE LA CASA", price: "13,90€", desc: "Vino tinto o blanco de la casa.", available: true }
+            ]
         };
 
         onAuthStateChanged(auth, async (user) => {
@@ -305,7 +359,11 @@
                 onSnapshot(mRef, (snap) => {
                     window.menuData = snap.exists() ? snap.data().content : defaultMenu;
                     render(); hideLoad();
-                }, (e) => { window.menuData = defaultMenu; render(); hideLoad(); });
+                }, (e) => { 
+                    window.menuData = defaultMenu; 
+                    render(); 
+                    hideLoad(); 
+                });
             }
         });
         if(firebaseConfig.apiKey) signInAnonymously(auth); else { window.menuData = defaultMenu; render(); hideLoad(); }
@@ -335,9 +393,9 @@
             const ed = window.isAdmin ? 'contenteditable="true"' : '';
             const cl = window.isAdmin ? 'admin-edit-outline px-2' : '';
             if (isE) {
-                return `<div class="${item.available ? '' : 'opacity-25'} mb-8"><div class="flex justify-between ${cl}"><h4 onblur="window.upVal('${cat}', ${item.id}, 'name', this.innerText)" ${ed} class="font-bold text-white uppercase">${item.name}</h4><span class="text-orange-400 font-black">${item.price}</span></div><p class="text-stone-400 text-xs italic">${item.desc}</p></div>`;
+                return `<div class="${item.available ? '' : 'opacity-25'} mb-8"><div class="flex justify-between ${cl}"><h4 onblur="window.upVal('${cat}', ${item.id}, 'name', this.innerText)" ${ed} class="font-bold text-white uppercase outline-none">${item.name}</h4><span class="text-orange-400 font-black ml-4">${item.price}</span></div><p class="text-stone-400 text-xs italic">${item.desc}</p></div>`;
             } else {
-                return `<div class="${item.available ? '' : 'opacity-25'} border-b border-stone-200 pb-10 mb-10"><div class="flex justify-between ${cl}"><h4 onblur="window.upVal('${cat}', ${item.id}, 'name', this.innerText)" ${ed} class="font-header text-stone-900 text-xl">${item.name}</h4><span class="text-stone-900 font-black">${item.price}</span></div><p class="text-stone-500 text-sm font-light italic">${item.desc}</p></div>`;
+                return `<div class="${item.available ? '' : 'opacity-25'} border-b border-stone-200 pb-10 mb-10"><div class="flex justify-between ${cl}"><h4 onblur="window.upVal('${cat}', ${item.id}, 'name', this.innerText)" ${ed} class="font-header text-stone-900 text-xl outline-none">${item.name}</h4><span class="text-stone-900 font-black ml-6">${item.price}</span></div><p class="text-stone-500 text-sm font-light italic">${item.desc}</p></div>`;
             }
         }
 
