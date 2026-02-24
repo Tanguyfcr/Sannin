@@ -26,7 +26,6 @@
         .font-header { font-family: 'Cinzel', serif; }
         .font-accent { font-family: 'Playfair Display', serif; }
         
-        /* Textures et fonds */
         .bg-paper { background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png'); }
         .hero-bg { 
             background: linear-gradient(rgba(45, 27, 14, 0.5), rgba(45, 27, 14, 0.7)), url('https://i.postimg.cc/c4j4SmHB/sannin1.jpg'); 
@@ -34,16 +33,16 @@
             background-position: center; 
         }
         
-        /* Éléments UI */
-        .card-star { background-color: var(--sannin-wood); border-radius: 4px; box-shadow: 15px 15px 0px var(--sannin-gold); }
+        .card-star { background-color: var(--sannin-wood); border-radius: 4px; box-shadow: 10px 10px 0px var(--sannin-gold); }
+        @media (min-width: 768px) { .card-star { box-shadow: 15px 15px 0px var(--sannin-gold); } }
+        
         .nav-glass { background: rgba(253, 250, 245, 0.98); backdrop-filter: blur(10px); border-bottom: 2px solid var(--sannin-wood); }
         .btn-action { background: var(--sannin-terracotta); transition: all 0.3s ease; border: 1px solid transparent; }
-        .btn-action:hover { background: var(--sannin-wood); border-color: var(--sannin-gold); }
         
-        /* Boutons de livraison flottants */
+        /* Boutons de livraison flottants - Adaptés mobile */
         .delivery-fab {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -54,55 +53,78 @@
             background: white;
             border: 2px solid white;
         }
+        @media (min-width: 768px) {
+            .delivery-fab { width: 60px; height: 60px; }
+        }
         .delivery-fab:hover {
-            transform: scale(1.15) translateX(-8px);
+            transform: scale(1.1) translateX(-5px);
             box-shadow: 0 15px 35px rgba(0,0,0,0.3);
             z-index: 100;
         }
-        .delivery-fab img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .delivery-fab img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Tabs défilables sur mobile */
+        .tabs-scroll {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            gap: 0.5rem;
+            padding-bottom: 0.5rem;
         }
+        .tabs-scroll::-webkit-scrollbar { display: none; }
+        .tabs-scroll button { flex-shrink: 0; scroll-snap-align: start; }
 
         /* Styles Admin */
         .admin-edit-outline { outline: 2px dashed var(--sannin-gold); outline-offset: 4px; border-radius: 4px; background: rgba(197, 160, 89, 0.05); }
         .tab-active { background-color: var(--sannin-wood) !important; color: white !important; transform: translateY(-2px); }
         .lang-btn.active { color: var(--sannin-terracotta); font-weight: 800; border-bottom: 2px solid var(--sannin-terracotta); }
         
-        /* Animations */
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         .fade-in { animation: fadeIn 0.8s ease-out forwards; }
         
         .loading-ring { width: 40px; height: 40px; border: 3px solid rgba(179, 90, 56, 0.1); border-radius: 50%; border-top-color: var(--sannin-terracotta); animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Menu mobile */
+        #mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        #mobile-menu.open { transform: translateX(0); }
     </style>
 </head>
 <body class="bg-paper">
 
-    <!-- BOUTONS DE LIVRAISON FLOTTANTS AVEC LOGOS RÉELS -->
-    <div class="fixed bottom-8 right-8 z-[100] flex flex-col gap-4">
-        
-        <!-- Glovo -->
+    <!-- BOUTONS DE LIVRAISON FLOTTANTS -->
+    <div class="fixed bottom-4 right-4 md:bottom-8 md:right-8 z-[100] flex flex-col gap-3 md:gap-4">
         <a href="https://glovoapp.com/es/es/barcelona/sannin-barcelona" target="_blank" title="Pedir en Glovo" class="delivery-fab">
             <img src="https://i.postimg.cc/CKQfZhBR/glovoim.png" alt="Glovo">
         </a>
-
-        <!-- Uber Eats -->
         <a href="https://www.ubereats.com/es/store/restaurante-libanes-sannin-barcelona/QBgHbRlpSGiZWN_jz9Jsag" target="_blank" title="Pedir en Uber Eats" class="delivery-fab">
             <img src="https://i.postimg.cc/jdFvbbvh/ubeat.jpg" alt="Uber Eats">
         </a>
-
-        <!-- Just Eat -->
         <a href="https://www.just-eat.es/restaurants-libanessannin/menu" target="_blank" title="Pedir en Just Eat" class="delivery-fab">
             <img src="https://i.postimg.cc/Pq9PXS9Q/445647-Just-Eat-Logo-White-Secondary-Vertical-Stacked-On-Orange-RGB-2828cf-large-1664805776.png" alt="Just Eat">
         </a>
+    </div>
 
+    <!-- Menu Mobile Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 z-[150] bg-stone-900 flex flex-col p-8 lg:hidden">
+        <div class="flex justify-end mb-12">
+            <button onclick="toggleMenu()" class="text-white text-2xl"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="flex flex-col gap-8 text-white font-header text-2xl uppercase tracking-widest text-center">
+            <a href="#menu" onclick="toggleMenu()">La Carta</a>
+            <a href="#horarios" onclick="toggleMenu()">Ubicación</a>
+            <a href="tel:+34932850051" class="text-orange-400">+34 932 85 00 51</a>
+        </div>
     </div>
 
     <!-- Modals Administration -->
     <div id="login-modal" class="fixed inset-0 hidden z-[200] bg-stone-900/95 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-white p-10 rounded-sm border-t-8 border-stone-800 w-full max-w-sm shadow-2xl">
+        <div class="bg-white p-8 md:p-10 rounded-sm border-t-8 border-stone-800 w-full max-w-sm shadow-2xl">
             <h3 class="font-header text-2xl mb-8 text-center uppercase tracking-widest text-stone-800">Acceso Admin</h3>
             <div class="space-y-4">
                 <input type="text" id="login-user" placeholder="USUARIO" class="w-full border-b border-stone-200 px-2 py-4 outline-none focus:border-orange-700 transition-all font-bold text-stone-900">
@@ -119,22 +141,22 @@
         <div class="max-w-7xl mx-auto flex justify-between items-center text-[10px] font-bold uppercase tracking-widest">
             <div class="flex items-center gap-4">
                 <span class="bg-orange-700 px-3 py-1 rounded-sm">Modo Editor</span>
-                <p id="current-admin-user" class="text-stone-400"></p>
+                <p id="current-admin-user" class="text-stone-400 hidden sm:block"></p>
             </div>
-            <div class="flex gap-4">
-                <button id="save-btn" onclick="window.saveChanges()" class="bg-emerald-600 px-5 py-2 hover:bg-emerald-500 transition shadow-lg">Guardar Menú</button>
-                <button onclick="window.logoutAdmin()" class="bg-stone-700 px-5 py-2 hover:bg-stone-600 transition">Salir</button>
+            <div class="flex gap-2 sm:gap-4">
+                <button id="save-btn" onclick="window.saveChanges()" class="bg-emerald-600 px-3 sm:px-5 py-2 hover:bg-emerald-500 transition shadow-lg">Guardar</button>
+                <button onclick="window.logoutAdmin()" class="bg-stone-700 px-3 sm:px-5 py-2 hover:bg-stone-600 transition">Salir</button>
             </div>
         </div>
     </div>
 
     <!-- Navigation -->
     <nav id="main-nav" class="fixed w-full z-50 nav-glass transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex justify-between items-center">
             <!-- Logo -->
             <div class="flex flex-col cursor-pointer group" onclick="window.scrollTo(0,0)">
-                <span class="font-header text-3xl leading-none text-stone-900 tracking-tighter">SANNIN</span>
-                <span class="text-[9px] tracking-[0.45em] text-orange-700 font-bold uppercase -mt-0.5 opacity-80">Restaurante Libanés</span>
+                <span class="font-header text-2xl sm:text-3xl leading-none text-stone-900 tracking-tighter">SANNIN</span>
+                <span class="text-[8px] sm:text-[9px] tracking-[0.3em] sm:tracking-[0.45em] text-orange-700 font-bold uppercase -mt-0.5 opacity-80">Restaurante Libanés</span>
             </div>
             
             <!-- Desktop Links -->
@@ -144,77 +166,79 @@
                 <a href="tel:+34932850051" class="text-stone-900 border-l border-stone-200 pl-12 flex items-center gap-2"><i class="fas fa-phone text-[8px] text-orange-700"></i> +34 932 85 00 51</a>
             </div>
 
-            <!-- Langues -->
-            <div class="flex items-center gap-6">
-                <div class="flex gap-4 text-[10px] font-black text-stone-400">
-                    <button onclick="window.setLang('es')" id="lang-es" class="lang-btn hover:text-stone-900 transition">ES</button>
-                    <button onclick="window.setLang('cat')" id="lang-cat" class="lang-btn hover:text-stone-900 transition">CAT</button>
-                    <button onclick="window.setLang('en')" id="lang-en" class="lang-btn hover:text-stone-900 transition">EN</button>
+            <!-- Lang & Burger -->
+            <div class="flex items-center gap-4 sm:gap-6">
+                <div class="flex gap-2 sm:gap-4 text-[10px] font-black text-stone-400">
+                    <button onclick="window.setLang('es')" id="lang-es" class="lang-btn">ES</button>
+                    <button onclick="window.setLang('cat')" id="lang-cat" class="lang-btn">CAT</button>
+                    <button onclick="window.setLang('en')" id="lang-en" class="lang-btn">EN</button>
                 </div>
+                <button onclick="toggleMenu()" class="lg:hidden text-stone-900 text-xl"><i class="fas fa-bars"></i></button>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero-bg h-[85vh] flex items-center justify-center text-center px-4 pt-20">
+    <section class="hero-bg min-h-[70vh] sm:h-[85vh] flex items-center justify-center text-center px-4 pt-24 pb-12">
         <div class="max-w-4xl fade-in">
-            <h1 class="font-header text-5xl md:text-8xl mb-6 text-white uppercase tracking-tighter leading-[0.9]">Sabor Auténtico <br><span class="font-accent italic text-orange-400 normal-case lowercase text-4xl md:text-7xl">de Beirut</span></h1>
-            <div class="w-20 h-0.5 bg-orange-400/50 mx-auto mb-10"></div>
-            <p id="hero-sub" class="text-stone-200 text-lg md:text-xl font-light tracking-[0.2em] uppercase mb-12">Desde 1993 compartiendo cultura en Gràcia</p>
+            <h1 class="font-header text-4xl sm:text-5xl md:text-8xl mb-6 text-white uppercase tracking-tighter leading-[1] sm:leading-[0.9]">Sabor Auténtico <br><span class="font-accent italic text-orange-400 normal-case lowercase text-3xl sm:text-4xl md:text-7xl">de Beirut</span></h1>
+            <div class="w-16 sm:w-20 h-0.5 bg-orange-400/50 mx-auto mb-8 sm:mb-10"></div>
+            <p id="hero-sub" class="text-stone-200 text-sm sm:text-lg md:text-xl font-light tracking-[0.1em] sm:tracking-[0.2em] uppercase mb-10 sm:mb-12">Desde 1993 compartiendo cultura en Gràcia</p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="#menu" id="btn-explore" class="inline-block bg-white text-stone-900 px-12 py-5 font-bold text-[11px] uppercase tracking-[0.3em] hover:bg-orange-700 hover:text-white transition-all shadow-2xl">Explorar Menú</a>
-                <a href="https://maps.app.goo.gl/zLFLWrPkCFfXhnXY7" target="_blank" class="inline-block border border-white/30 text-white px-12 py-5 font-bold text-[11px] uppercase tracking-[0.3em] hover:bg-white/10 transition-all">Cómo llegar</a>
+                <a href="#menu" id="btn-explore" class="inline-block bg-white text-stone-900 px-8 sm:px-12 py-4 sm:py-5 font-bold text-[10px] sm:text-[11px] uppercase tracking-[0.2em] sm:tracking-[0.3em] hover:bg-orange-700 hover:text-white transition-all shadow-2xl">Explorar Menú</a>
+                <a href="https://maps.app.goo.gl/zLFLWrPkCFfXhnXY7" target="_blank" class="inline-block border border-white/30 text-white px-8 sm:px-12 py-4 sm:py-5 font-bold text-[10px] sm:text-[11px] uppercase tracking-[0.2em] sm:tracking-[0.3em] hover:bg-white/10 transition-all">Cómo llegar</a>
             </div>
         </div>
     </section>
 
     <!-- Menu Section -->
-    <section id="menu" class="py-32 px-4 min-h-screen">
+    <section id="menu" class="py-16 sm:py-32 px-4 min-h-screen">
         <div class="max-w-7xl mx-auto">
             
-            <!-- Loading -->
-            <div id="loading-spinner" class="text-center py-32">
+            <div id="loading-spinner" class="text-center py-20 sm:py-32">
                 <div class="loading-ring mx-auto mb-6"></div>
                 <p id="txt-loading" class="font-header uppercase text-[10px] tracking-widest opacity-40">Preparando delicias...</p>
             </div>
 
-            <div id="menu-content" class="hidden grid lg:grid-cols-12 gap-20 fade-in">
+            <div id="menu-content" class="hidden grid lg:grid-cols-12 gap-12 lg:gap-20 fade-in">
                 <!-- Spécialités -->
                 <div class="lg:col-span-4">
-                    <div class="card-star p-10 lg:sticky lg:top-32">
-                        <div class="flex justify-between items-start mb-12 border-b border-white/10 pb-6">
-                            <h2 class="font-header text-3xl text-white uppercase leading-none" id="txt-stars-title">Sugerencias <br><span class="text-orange-400 italic font-accent lowercase text-2xl normal-case">del chef</span></h2>
+                    <div class="card-star p-6 sm:p-10 lg:sticky lg:top-32">
+                        <div class="flex justify-between items-start mb-8 sm:mb-12 border-b border-white/10 pb-6">
+                            <h2 class="font-header text-2xl sm:text-3xl text-white uppercase leading-none" id="txt-stars-title">Sugerencias <br><span class="text-orange-400 italic font-accent lowercase text-xl sm:text-2xl normal-case">del chef</span></h2>
                             <button onclick="addItem('estrellas')" class="admin-only hidden bg-orange-700 text-white w-10 h-10 flex items-center justify-center rounded-sm hover:scale-105 transition shadow-lg"><i class="fas fa-plus"></i></button>
                         </div>
-                        <div class="space-y-12" id="estrellas-list"></div>
+                        <div class="space-y-8 sm:space-y-12" id="estrellas-list"></div>
                     </div>
                 </div>
 
                 <!-- Menu Principal -->
                 <div class="lg:col-span-8">
-                    <!-- Tabs -->
-                    <div class="flex flex-wrap gap-3 mb-16 border-b border-stone-200 pb-4" id="tabs-container">
-                        <button onclick="changeTab('entrantes')" class="px-6 py-3 font-bold text-[10px] tracking-widest uppercase transition-all tab-active" id="tab-entrantes">Vegetales / Mezze</button>
-                        <button onclick="changeTab('platos')" class="px-6 py-3 font-bold text-[10px] tracking-widest uppercase transition-all" id="tab-platos">Carnes / Platos</button>
-                        <button onclick="changeTab('bocadillos')" class="px-6 py-3 font-bold text-[10px] tracking-widest uppercase transition-all" id="tab-bocadillos">Bocadillos</button>
-                        <button onclick="changeTab('postres')" class="px-6 py-3 font-bold text-[10px] tracking-widest uppercase transition-all" id="tab-postres">Postres</button>
-                        <button onclick="changeTab('bebidas')" class="px-6 py-3 font-bold text-[10px] tracking-widest uppercase transition-all" id="tab-bebidas">Bebidas</button>
+                    <!-- Tabs - Scrollable on mobile -->
+                    <div class="mb-10 sm:mb-16 border-b border-stone-200">
+                        <div class="tabs-scroll pb-2" id="tabs-container">
+                            <button onclick="changeTab('entrantes')" class="px-4 sm:px-6 py-3 font-bold text-[9px] sm:text-[10px] tracking-widest uppercase transition-all tab-active whitespace-nowrap" id="tab-entrantes">Mezze</button>
+                            <button onclick="changeTab('platos')" class="px-4 sm:px-6 py-3 font-bold text-[9px] sm:text-[10px] tracking-widest uppercase transition-all whitespace-nowrap" id="tab-platos">Grillades</button>
+                            <button onclick="changeTab('bocadillos')" class="px-4 sm:px-6 py-3 font-bold text-[9px] sm:text-[10px] tracking-widest uppercase transition-all whitespace-nowrap" id="tab-bocadillos">Shawarma/Falafel</button>
+                            <button onclick="changeTab('postres')" class="px-4 sm:px-6 py-3 font-bold text-[9px] sm:text-[10px] tracking-widest uppercase transition-all whitespace-nowrap" id="tab-postres">Postres</button>
+                            <button onclick="changeTab('bebidas')" class="px-4 sm:px-6 py-3 font-bold text-[9px] sm:text-[10px] tracking-widest uppercase transition-all whitespace-nowrap" id="tab-bebidas">Bebidas</button>
+                        </div>
                     </div>
 
-                    <div class="admin-only hidden mb-10">
-                        <button onclick="addItem(currentTab)" class="w-full bg-stone-100 border-2 border-dashed border-stone-300 py-6 text-stone-500 font-bold uppercase text-[10px] hover:bg-stone-200 transition">Añadir plato a esta categoría</button>
+                    <div class="admin-only hidden mb-8 sm:mb-10">
+                        <button onclick="addItem(currentTab)" class="w-full bg-stone-100 border-2 border-dashed border-stone-300 py-4 sm:py-6 text-stone-500 font-bold uppercase text-[9px] sm:text-[10px] hover:bg-stone-200 transition">Añadir plato</button>
                     </div>
 
-                    <div class="grid gap-14" id="dynamic-menu"></div>
+                    <div class="grid gap-10 sm:gap-14" id="dynamic-menu"></div>
                     
                     <!-- Badge Qualité -->
-                    <div class="mt-24 p-12 bg-stone-100/50 border border-stone-200 relative overflow-hidden group">
-                        <div class="absolute -right-8 -bottom-8 opacity-[0.03] text-9xl font-header group-hover:scale-110 transition-transform duration-1000 text-stone-900">1993</div>
-                        <div class="flex items-center gap-4 mb-6">
-                            <span class="bg-orange-700 text-white text-[9px] font-black px-4 py-1.5 tracking-[0.2em] uppercase">Artesanal</span>
-                            <h3 id="txt-masa-title" class="font-header text-xl uppercase text-stone-800">Cocina Tradicional</h3>
+                    <div class="mt-16 sm:mt-24 p-8 sm:p-12 bg-stone-100/50 border border-stone-200 relative overflow-hidden group">
+                        <div class="absolute -right-8 -bottom-8 opacity-[0.03] text-7xl sm:text-9xl font-header group-hover:scale-110 transition-transform duration-1000 text-stone-900">1993</div>
+                        <div class="flex items-center gap-4 mb-4 sm:mb-6">
+                            <span class="bg-orange-700 text-white text-[8px] sm:text-[9px] font-black px-3 sm:px-4 py-1.5 tracking-[0.1em] sm:tracking-[0.2em] uppercase">Artesanal</span>
+                            <h3 id="txt-masa-title" class="font-header text-lg sm:text-xl uppercase text-stone-800">Cocina Tradicional</h3>
                         </div>
-                        <p id="txt-masa-desc" class="text-stone-500 text-sm leading-relaxed max-w-xl italic font-light">Recetas familiares transmitidas por generaciones. Utilizamos ingredientes frescos y especias traídas directamente del Líbano.</p>
+                        <p id="txt-masa-desc" class="text-stone-500 text-xs sm:text-sm leading-relaxed max-w-xl italic font-light">Recetas familiares transmitidas por generations. Utilizamos ingredientes frescos y especias traídas directement del Líbano.</p>
                     </div>
                 </div>
             </div>
@@ -222,42 +246,42 @@
     </section>
 
     <!-- Info & Horaires -->
-    <section id="horarios" class="py-32 bg-stone-900 text-white">
-        <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 lg:grid-cols-3 gap-20">
+    <section id="horarios" class="py-16 sm:py-32 bg-stone-900 text-white">
+        <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 lg:grid-cols-3 gap-12 sm:gap-20">
             <div>
-                <h3 class="font-header text-xl mb-10 uppercase text-orange-400 tracking-widest">Ubicación</h3>
-                <p class="text-stone-300 text-lg mb-8 leading-relaxed font-accent italic">Carrer de l'Encarnació, 44<br>08024 Barcelona (Vila de Gràcia)</p>
+                <h3 class="font-header text-lg sm:text-xl mb-6 sm:mb-10 uppercase text-orange-400 tracking-widest">Ubicación</h3>
+                <p class="text-stone-300 text-base sm:text-lg mb-6 sm:mb-8 leading-relaxed font-accent italic">Carrer de l'Encarnació, 44<br>08024 Barcelona (Vila de Gràcia)</p>
                 <div class="flex gap-4">
-                    <a href="tel:+34932850051" class="btn-action px-8 py-3 rounded-sm font-bold text-[10px] uppercase tracking-widest">Llamar</a>
-                    <a href="https://maps.app.goo.gl/zLFLWrPkCFfXhnXY7" target="_blank" class="border border-stone-700 px-8 py-3 rounded-sm font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition">Mapa</a>
+                    <a href="tel:+34932850051" class="btn-action px-6 sm:px-8 py-3 rounded-sm font-bold text-[9px] sm:text-[10px] uppercase tracking-widest">Llamar</a>
+                    <a href="https://maps.app.goo.gl/zLFLWrPkCFfXhnXY7" target="_blank" class="border border-stone-700 px-6 sm:px-8 py-3 rounded-sm font-bold text-[9px] sm:text-[10px] uppercase tracking-widest hover:bg-white/10 transition">Mapa</a>
                 </div>
             </div>
             <div>
-                <h3 id="txt-horarios-title" class="font-header text-xl mb-10 uppercase text-orange-400 tracking-widest">Horarios</h3>
-                <div class="space-y-4 text-stone-300 font-bold uppercase text-[10px] tracking-[0.2em]">
+                <h3 id="txt-horarios-title" class="font-header text-lg sm:text-xl mb-6 sm:mb-10 uppercase text-orange-400 tracking-widest">Horarios</h3>
+                <div class="space-y-4 text-stone-300 font-bold uppercase text-[9px] sm:text-[10px] tracking-[0.1em] sm:tracking-[0.2em]">
                     <div class="flex justify-between border-b border-stone-800 pb-4"><span>Lunes - Domingo</span><span class="text-white">13:00 – 23:00</span></div>
-                    <p class="text-[9px] text-stone-500 mt-4 normal-case italic">Abierto todos los días de la semana.</p>
+                    <p class="text-[8px] sm:text-[9px] text-stone-500 mt-4 normal-case italic">Abierto todos los días de la semana.</p>
                 </div>
             </div>
             <div class="lg:col-span-1">
-                <h3 class="font-header text-xl mb-10 uppercase text-orange-400 tracking-widest">A domicilio</h3>
-                <p class="text-stone-400 text-sm leading-relaxed mb-6">Disfruta de lo mejor del Líbano en la comodidad de tu casa. Reparto disponible en toda la zona de Gràcia y barrios colindantes.</p>
+                <h3 class="font-header text-lg sm:text-xl mb-6 sm:mb-10 uppercase text-orange-400 tracking-widest">A domicilio</h3>
+                <p class="text-stone-400 text-xs sm:text-sm leading-relaxed mb-6">Disfruta de lo mejor del Líbano en tu casa. Reparto disponible en Gràcia y alrededores.</p>
                 <div class="flex items-center gap-4 text-orange-400 font-bold">
-                    <i class="fas fa-motorcycle text-2xl"></i>
-                    <span class="text-xs uppercase tracking-widest">Envío rápido y seguro</span>
+                    <i class="fas fa-motorcycle text-xl sm:text-2xl"></i>
+                    <span class="text-[10px] sm:text-xs uppercase tracking-widest">Envío rápido y seguro</span>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer id="contacto" class="py-24 bg-black text-center relative overflow-hidden">
-        <div class="mb-12 flex flex-col items-center">
-            <span class="font-header text-4xl text-white tracking-[0.2em]">SANNIN</span>
-            <span class="text-[10px] tracking-[0.6em] text-orange-700 font-bold uppercase mt-2">Barcelona</span>
+    <footer id="contacto" class="py-16 sm:py-24 bg-black text-center relative overflow-hidden">
+        <div class="mb-10 sm:mb-12 flex flex-col items-center px-4">
+            <span class="font-header text-3xl sm:text-4xl text-white tracking-[0.2em]">SANNIN</span>
+            <span class="text-[9px] sm:text-[10px] tracking-[0.5em] sm:tracking-[0.6em] text-orange-700 font-bold uppercase mt-2">Barcelona</span>
         </div>
-        <button onclick="window.openLogin()" id="owner-access-btn" class="text-[9px] text-stone-700 uppercase tracking-[0.5em] font-black hover:text-stone-300 transition-colors py-4 px-10 border border-white/5 rounded-full">Acceso Propietario</button>
-        <p class="mt-12 text-stone-800 text-[8px] uppercase tracking-widest">© 2026 Restaurante Sannin. Todos los derechos reservados.</p>
+        <button onclick="window.openLogin()" id="owner-access-btn" class="text-[8px] sm:text-[9px] text-stone-700 uppercase tracking-[0.4em] sm:tracking-[0.5em] font-black hover:text-stone-300 transition-colors py-3 sm:py-4 px-8 sm:px-10 border border-white/5 rounded-full">Acceso Propietario</button>
+        <p class="mt-10 sm:mt-12 text-stone-800 text-[8px] uppercase tracking-widest px-4">© 2026 Restaurante Sannin. Todos los derechos reservados.</p>
     </footer>
 
     <script type="module">
@@ -286,6 +310,10 @@
         window.currentTab = 'entrantes';
         window.isAdmin = sessionStorage.getItem('sanninAdminAuth') === 'true';
         window.currentLang = localStorage.getItem('sanninLang') || 'es';
+
+        window.toggleMenu = () => {
+            document.getElementById('mobile-menu').classList.toggle('open');
+        };
 
         const i18n = {
             es: { sub: "Desde 1993 compartiendo cultura en Gràcia", masaT: "Cocina Tradicional", masaD: "Recetas familiares transmitidas por generaciones. Utilizamos ingredientes frescos y especias traídas directamente del Líbano.", hT: "Horarios", navMenu: "La Carta", navHorarios: "Ubicación", btnExplore: "Explorar Menú", starsTitle: "Sugerencias <br><span class='text-orange-400 italic font-accent lowercase text-2xl normal-case'>del chef</span>", loading: "Preparando delicias..." },
@@ -393,18 +421,30 @@
             const ed = window.isAdmin ? 'contenteditable="true"' : '';
             const cl = window.isAdmin ? 'admin-edit-outline px-2' : '';
             if (isE) {
-                return `<div class="${item.available ? '' : 'opacity-25'} mb-8"><div class="flex justify-between ${cl}"><h4 onblur="window.upVal('${cat}', ${item.id}, 'name', this.innerText)" ${ed} class="font-bold text-white uppercase outline-none">${item.name}</h4><span class="text-orange-400 font-black ml-4">${item.price}</span></div><p class="text-stone-400 text-xs italic">${item.desc}</p></div>`;
+                return `<div class="${item.available ? '' : 'opacity-25'} mb-8"><div class="flex justify-between items-baseline ${cl}"><h4 onblur="window.upVal('${cat}', ${item.id}, 'name', this.innerText)" ${ed} class="font-bold text-white uppercase outline-none text-base sm:text-lg">${item.name}</h4><span class="text-orange-400 font-black ml-4 whitespace-nowrap">${item.price}</span></div><p class="text-stone-400 text-xs italic leading-relaxed">${item.desc}</p></div>`;
             } else {
-                return `<div class="${item.available ? '' : 'opacity-25'} border-b border-stone-200 pb-10 mb-10"><div class="flex justify-between ${cl}"><h4 onblur="window.upVal('${cat}', ${item.id}, 'name', this.innerText)" ${ed} class="font-header text-stone-900 text-xl outline-none">${item.name}</h4><span class="text-stone-900 font-black ml-6">${item.price}</span></div><p class="text-stone-500 text-sm font-light italic">${item.desc}</p></div>`;
+                return `<div class="${item.available ? '' : 'opacity-25'} border-b border-stone-200 pb-8 sm:pb-10 mb-8 sm:mb-10"><div class="flex justify-between items-baseline ${cl}"><h4 onblur="window.upVal('${cat}', ${item.id}, 'name', this.innerText)" ${ed} class="font-header text-stone-900 text-lg sm:text-xl outline-none">${item.name}</h4><span class="text-stone-900 font-black ml-6 whitespace-nowrap">${item.price}</span></div><p class="text-stone-500 text-xs sm:text-sm font-light italic leading-relaxed">${item.desc}</p></div>`;
             }
         }
 
-        window.changeTab = (c) => { window.currentTab = c; document.querySelectorAll('#tabs-container button').forEach(b => b.classList.remove('tab-active')); document.getElementById('tab-'+c).classList.add('tab-active'); render(); };
+        window.changeTab = (c) => { 
+            window.currentTab = c; 
+            document.querySelectorAll('#tabs-container button').forEach(b => b.classList.remove('tab-active')); 
+            document.getElementById('tab-'+c).classList.add('tab-active'); 
+            render(); 
+            // Centrer l'onglet sélectionné sur mobile
+            document.getElementById('tab-'+c).scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        };
+        
         window.upVal = (c, id, f, v) => { const i = window.menuData[c].find(x => x.id === id); if(i) i[f] = v; };
         window.openLogin = () => document.getElementById('login-modal').classList.remove('hidden');
         window.closeLogin = () => document.getElementById('login-modal').classList.add('hidden');
         window.attemptLogin = () => { if (document.getElementById('login-user').value === "admin") { window.isAdmin = true; render(); window.closeLogin(); } };
-        function syncAdminUI() { document.getElementById('admin-bar').classList.toggle('hidden', !window.isAdmin); }
+        function syncAdminUI() { 
+            const bar = document.getElementById('admin-bar');
+            bar.classList.toggle('hidden', !window.isAdmin); 
+            document.getElementById('main-nav').style.top = window.isAdmin ? '40px' : '0';
+        }
         function hideLoad() { document.getElementById('loading-spinner').classList.add('hidden'); document.getElementById('menu-content').classList.remove('hidden'); }
     </script>
 </body>
