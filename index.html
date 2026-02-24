@@ -25,7 +25,6 @@
 
         .font-header { font-family: 'Cinzel', serif; }
         .font-accent { font-family: 'Playfair Display', serif; }
-        
         .bg-paper { background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png'); }
         
         .hero-bg { 
@@ -34,27 +33,12 @@
             background-position: center; 
         }
         
-        /* Card design adaptatif */
-        .card-star { 
-            background-color: var(--sannin-wood); 
-            border-radius: 4px; 
-            box-shadow: 8px 8px 0px var(--sannin-gold); 
-        }
+        .card-star { background-color: var(--sannin-wood); border-radius: 4px; box-shadow: 8px 8px 0px var(--sannin-gold); }
         @media (min-width: 768px) { .card-star { box-shadow: 15px 15px 0px var(--sannin-gold); } }
         
-        .nav-glass { 
-            background: rgba(253, 250, 245, 0.98); 
-            backdrop-filter: blur(10px); 
-            border-bottom: 2px solid var(--sannin-wood); 
-        }
-
-        .btn-action { 
-            background: var(--sannin-terracotta); 
-            transition: all 0.3s ease; 
-            border: 1px solid transparent; 
-        }
+        .nav-glass { background: rgba(253, 250, 245, 0.98); backdrop-filter: blur(10px); border-bottom: 2px solid var(--sannin-wood); }
+        .btn-action { background: var(--sannin-terracotta); transition: all 0.3s ease; border: 1px solid transparent; }
         
-        /* Boutons de livraison flottants - Adaptés pour éviter de masquer le texte important */
         .delivery-fab {
             width: 48px; height: 48px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
@@ -63,10 +47,8 @@
             overflow: hidden; background: white; border: 2px solid white;
         }
         @media (min-width: 768px) { .delivery-fab { width: 60px; height: 60px; } }
-        .delivery-fab:hover { transform: scale(1.1) translateX(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.2); z-index: 100; }
         .delivery-fab img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* Navigation par onglets défilable sans barre de scroll visible */
         .tabs-scroll {
             display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
             scrollbar-width: none; -ms-overflow-style: none; gap: 0.5rem; padding-bottom: 0.5rem;
@@ -103,15 +85,41 @@
         </a>
     </div>
 
-    <!-- Menu Mobile Overlay -->
-    <div id="mobile-menu" class="fixed inset-0 z-[150] bg-stone-900 flex flex-col p-8 lg:hidden">
+    <!-- Menu Mobile -->
+    <div id="mobile-menu" class="fixed inset-0 z-[150] bg-stone-900 flex flex-col p-8 lg:hidden text-white">
         <div class="flex justify-end mb-12">
             <button onclick="toggleMenu()" class="text-white text-2xl p-2"><i class="fas fa-times"></i></button>
         </div>
-        <div class="flex flex-col gap-8 text-white font-header text-2xl uppercase tracking-widest text-center">
+        <div class="flex flex-col gap-8 font-header text-2xl uppercase tracking-widest text-center">
             <a href="#menu" id="m-nav-menu" onclick="toggleMenu()">La Carta</a>
             <a href="#horarios" id="m-nav-horarios" onclick="toggleMenu()">Ubicación</a>
             <a href="tel:+34932850051" class="text-orange-400 font-sans font-bold">+34 932 85 00 51</a>
+        </div>
+    </div>
+
+    <!-- Modals Administration -->
+    <div id="login-modal" class="fixed inset-0 hidden z-[200] bg-stone-900/95 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white p-8 md:p-10 rounded-sm border-t-8 border-stone-800 w-full max-w-sm shadow-2xl text-stone-900">
+            <h3 class="font-header text-2xl mb-8 text-center uppercase tracking-widest">Acceso Admin</h3>
+            <div class="space-y-4">
+                <input type="text" id="login-user" placeholder="USUARIO" class="w-full border-b border-stone-200 px-2 py-4 outline-none focus:border-orange-700 transition-all font-bold">
+                <input type="password" id="login-pass" placeholder="CONTRASEÑA" class="w-full border-b border-stone-200 px-2 py-4 outline-none focus:border-orange-700 transition-all font-bold">
+                <div id="login-error" class="hidden text-red-600 text-[10px] text-center font-bold uppercase py-2 tracking-widest">Error de acceso</div>
+                <button onclick="window.attemptLogin()" class="w-full btn-action text-white py-5 rounded-sm font-bold text-xs uppercase tracking-[0.3em] shadow-xl">Entrar</button>
+                <button onclick="window.closeLogin()" class="w-full py-2 text-[10px] font-bold uppercase text-stone-400 hover:text-stone-800 transition">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="settings-modal" class="fixed inset-0 hidden z-[200] bg-stone-900/95 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white p-8 md:p-10 rounded-sm border-t-8 border-emerald-600 w-full max-w-sm shadow-2xl text-stone-900">
+            <h3 class="font-header text-2xl mb-8 text-center uppercase tracking-widest">Configuración</h3>
+            <div class="space-y-4">
+                <input type="text" id="new-user" placeholder="NUEVO USUARIO" class="w-full border-b border-stone-200 px-2 py-4 outline-none focus:border-emerald-600 transition-all font-bold">
+                <input type="password" id="new-pass" placeholder="NUEVA CONTRASEÑA" class="w-full border-b border-stone-200 px-2 py-4 outline-none focus:border-emerald-600 transition-all font-bold">
+                <button onclick="window.updateCredentials()" class="w-full bg-emerald-600 text-white py-5 rounded-sm font-bold text-xs uppercase tracking-[0.3em] shadow-xl">Actualizar Claves</button>
+                <button onclick="window.closeSettings()" class="w-full py-2 text-[10px] font-bold uppercase text-stone-400">Volver</button>
+            </div>
         </div>
     </div>
 
@@ -121,10 +129,12 @@
             <div class="flex items-center gap-4">
                 <span class="bg-orange-700 px-3 py-1 rounded-sm">Modo Editor</span>
                 <p id="current-admin-user" class="text-stone-400 hidden sm:block"></p>
+                <button onclick="window.openSettings()" class="text-stone-500 hover:text-white transition px-2"><i class="fas fa-cog"></i></button>
             </div>
-            <div class="flex gap-2 sm:gap-4">
+            <div class="flex gap-2 sm:gap-4 items-center">
+                <button onclick="window.addItem(window.currentTab)" class="bg-stone-700 border border-stone-500 px-3 sm:px-4 py-2 hover:bg-stone-600 transition shadow-lg rounded-sm text-[9px] sm:text-[10px]"><i class="fas fa-plus mr-1"></i> Añadir Plato</button>
                 <button id="save-btn" onclick="window.saveChanges()" class="bg-emerald-600 px-3 sm:px-5 py-2 hover:bg-emerald-500 transition shadow-lg rounded-sm text-[9px] sm:text-[10px]">Guardar</button>
-                <button onclick="window.logoutAdmin()" class="bg-stone-700 px-3 sm:px-5 py-2 hover:bg-stone-600 transition rounded-sm text-[9px] sm:text-[10px]">Salir</button>
+                <button onclick="window.logoutAdmin()" class="bg-zinc-800 px-3 sm:px-5 py-2 hover:bg-stone-600 transition rounded-sm text-[9px] sm:text-[10px]">Salir</button>
             </div>
         </div>
     </div>
@@ -170,25 +180,20 @@
     <!-- Menu Section -->
     <section id="menu" class="py-12 sm:py-24 lg:py-32 px-4 min-h-screen">
         <div class="max-w-7xl mx-auto">
-            
             <div id="loading-spinner" class="text-center py-20 sm:py-32">
                 <div class="loading-ring mx-auto mb-6"></div>
                 <p id="txt-loading" class="font-header uppercase text-[10px] tracking-widest opacity-40">Preparando delicias...</p>
             </div>
-
             <div id="menu-content" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 xl:gap-20 fade-in">
-                <!-- Sidebar: Sugerencias (Haut sur mobile, Gauche sur Desktop) -->
                 <div class="lg:col-span-4 order-2 lg:order-1">
                     <div class="card-star p-6 sm:p-8 md:p-10 lg:sticky lg:top-32">
                         <div class="flex justify-between items-start mb-8 sm:mb-12 border-b border-white/10 pb-6">
                             <h2 class="font-header text-xl sm:text-2xl md:text-3xl text-white uppercase leading-tight" id="txt-stars-title">Sugerencias <br><span class="text-orange-400 italic font-accent lowercase text-lg sm:text-xl md:text-2xl normal-case">del chef</span></h2>
-                            <button onclick="addItem('estrellas')" class="admin-only hidden bg-orange-700 text-white w-10 h-10 flex items-center justify-center rounded-sm hover:scale-105 transition shadow-lg"><i class="fas fa-plus"></i></button>
                         </div>
                         <div class="space-y-8 sm:space-y-12" id="estrellas-list"></div>
                     </div>
                 </div>
 
-                <!-- Main Menu (Bas sur mobile, Droite sur Desktop) -->
                 <div class="lg:col-span-8 order-1 lg:order-2">
                     <div class="mb-8 sm:mb-12 border-b border-stone-200">
                         <div class="tabs-scroll pb-2" id="tabs-container">
@@ -196,26 +201,12 @@
                             <button onclick="changeTab('empanadillas')" class="px-4 sm:px-6 py-3 font-bold text-[9px] sm:text-[10px] tracking-widest uppercase transition-all whitespace-nowrap" id="tab-empanadillas">EMPANADILLAS</button>
                             <button onclick="changeTab('combinados')" class="px-4 sm:px-6 py-3 font-bold text-[9px] sm:text-[10px] tracking-widest uppercase transition-all whitespace-nowrap" id="tab-combinados">COMBINADOS</button>
                             <button onclick="changeTab('couscous')" class="px-4 sm:px-6 py-3 font-bold text-[9px] sm:text-[10px] tracking-widest uppercase transition-all whitespace-nowrap" id="tab-couscous">COUS-COUS</button>
+                            <button onclick="changeTab('otros')" class="px-4 sm:px-6 py-3 font-bold text-[9px] sm:text-[10px] tracking-widest uppercase transition-all whitespace-nowrap" id="tab-otros">OTROS</button>
                             <button onclick="changeTab('postres')" class="px-4 sm:px-6 py-3 font-bold text-[9px] sm:text-[10px] tracking-widest uppercase transition-all whitespace-nowrap" id="tab-postres">POSTRES</button>
                             <button onclick="changeTab('bebidas')" class="px-4 sm:px-6 py-3 font-bold text-[9px] sm:text-[10px] tracking-widest uppercase transition-all whitespace-nowrap" id="tab-bebidas">BEBIDAS</button>
                         </div>
                     </div>
-
-                    <div class="admin-only hidden mb-8">
-                        <button onclick="addItem(currentTab)" class="w-full bg-stone-100 border-2 border-dashed border-stone-300 py-4 text-stone-500 font-bold uppercase text-[9px] sm:text-[10px] hover:bg-stone-200 transition">Añadir plato a esta categoría</button>
-                    </div>
-
                     <div class="grid gap-8 sm:gap-12" id="dynamic-menu"></div>
-                    
-                    <!-- Badge Qualité -->
-                    <div class="mt-16 sm:mt-24 p-6 sm:p-12 bg-stone-100/50 border border-stone-200 relative overflow-hidden group rounded-sm">
-                        <div class="absolute -right-8 -bottom-8 opacity-[0.03] text-6xl sm:text-9xl font-header group-hover:scale-110 transition-transform duration-1000 text-stone-900 pointer-events-none">1993</div>
-                        <div class="flex items-center gap-4 mb-4 sm:mb-6">
-                            <span class="bg-orange-700 text-white text-[8px] sm:text-[9px] font-black px-3 sm:px-4 py-1.5 tracking-[0.1em] sm:tracking-[0.2em] uppercase" id="txt-artesanal">Artesanal</span>
-                            <h3 id="txt-masa-title" class="font-header text-lg sm:text-xl uppercase text-stone-800">Cocina Tradicional</h3>
-                        </div>
-                        <p id="txt-masa-desc" class="text-stone-500 text-xs sm:text-sm leading-relaxed max-w-xl italic font-light">Recetas familiares transmitidas por generations. Utilizamos ingredientes frescos y especias traídas directement del Líbano.</p>
-                    </div>
                 </div>
             </div>
         </div>
@@ -256,7 +247,7 @@
             <span class="font-header text-3xl sm:text-4xl text-white tracking-[0.2em]">SANNIN</span>
             <span class="text-[9px] sm:text-[10px] tracking-[0.5em] sm:tracking-[0.6em] text-orange-700 font-bold uppercase mt-2" id="footer-tagline">Barcelona</span>
         </div>
-        <button onclick="window.openLogin()" id="owner-access-btn" class="text-[8px] sm:text-[9px] text-stone-700 uppercase tracking-[0.4em] sm:tracking-[0.5em] font-black hover:text-stone-300 transition-colors py-3 sm:py-4 px-8 sm:px-10 border border-white/5 rounded-full">Acceso Propietario</button>
+        <button onclick="window.openLogin()" id="owner-access-btn" class="text-[9px] text-stone-700 uppercase tracking-[0.4em] sm:tracking-[0.5em] font-black hover:text-stone-300 transition-colors py-3 sm:py-4 px-8 sm:px-10 border border-white/5 rounded-full">Acceso Propietario</button>
         <p class="mt-10 sm:mt-12 text-stone-800 text-[8px] uppercase tracking-widest px-4" id="txt-footer-rights">© 2026 Restaurante Sannin. Todos los derechos reservados.</p>
     </footer>
 
@@ -265,7 +256,6 @@
         import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Configuration Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyD7tNaCFZqG9TewVmDLbUw5io4i11n22X0",
             authDomain: "sannin-3c77c.firebaseapp.com",
@@ -284,75 +274,112 @@
         window.menuData = null;
         window.adminSettings = { user: "admin", pass: "sannin123" };
         window.currentTab = 'vegetales';
-        window.isAdmin = sessionStorage.getItem('sanninAdminAuth') === 'true';
+        window.isAdmin = false;
         window.currentLang = localStorage.getItem('sanninLang') || 'es';
 
-        window.toggleMenu = () => { document.getElementById('mobile-menu').classList.toggle('open'); };
-
         const i18n = {
-            es: { 
-                sub: "Desde 1993 compartiendo cultura en Gràcia", masaT: "Cocina Tradicional", masaD: "Recetas familiares transmitidas por generaciones. Utilizamos ingredientes frescos y especias traídas directamente del Líbano.", hT: "Horarios", navMenu: "La Carta", navHorarios: "Ubicación", btnExplore: "Explorar Menú", starsTitle: "Sugerencias <br><span class='text-orange-400 italic font-accent lowercase text-2xl normal-case'>del chef</span>", loading: "Preparando delicias...", heroTitle: "Sabor Auténtico <br><span class='font-accent italic text-orange-400 normal-case lowercase text-3xl sm:text-4xl md:text-7xl'>de Beirut</span>", btnHow: "Cómo llegar", brandSub: "Restaurante Libanés", locTitle: "Ubicación", btnCall: "Llamar", btnMap: "Mapa", delTitle: "A domicilio", delDesc: "Disfruta de lo mejor del Líbano en tu casa. Reparto disponible en Gràcia y barrios colindantes.", delBadge: "Envío rápido y seguro", days: "Lunes - Domingo", openAlways: "Abierto todos los días de la semana.", artesanal: "Artesanal", owner: "Acceso Propietario", rights: "© 2026 Restaurante Sannin. Todos los derechos reservados.",
-                catVeg: "VEGETALES", catEmp: "EMPANADILLAS", catCom: "COMBINADOS", catCou: "COUS-COUS", catPos: "POSTRES", catBeb: "BEBIDAS"
-            },
-            cat: { 
-                sub: "Des de 1993 compartint cultura a Gràcia", masaT: "Cuina Tradicional", masaD: "Receptes familiars transmeses per generacions. Utilitzem ingredients frescos i espècies portades directament del Líban.", hT: "Horaris", navMenu: "La Carta", navHorarios: "Ubicació", btnExplore: "Explorar Menú", starsTitle: "Suggeriments <br><span class='text-orange-400 italic font-accent lowercase text-2xl normal-case'>del xef</span>", loading: "Preparant delícies...", heroTitle: "Sabor Autèntic <br><span class='font-accent italic text-orange-400 normal-case lowercase text-3xl sm:text-4xl md:text-7xl'>de Beirut</span>", btnHow: "Com arribar", brandSub: "Restaurant Libanès", locTitle: "Ubicació", btnCall: "Trucar", btnMap: "Mapa", delTitle: "A domicili", delDesc: "Gaudeix del millor del Líban a casa teva. Repartiment disponible a Gràcia i voltants.", delBadge: "Enviament ràpid i segur", days: "Dilluns - Diumenge", openAlways: "Obert tots els dies de la setmana.", artesanal: "Artesanal", owner: "Accés Propietari", rights: "© 2026 Restaurant Sannin. Tots els drets reservats.",
-                catVeg: "VEGETALS", catEmp: "EMPANADILLES", catCom: "COMBINATS", catCou: "COUS-COUS", catPos: "POSTRES", catBeb: "BEGUDES"
-            },
-            en: { 
-                sub: "Sharing culture in Gràcia since 1993", masaT: "Traditional Kitchen", masaD: "Family recipes passed down through generations. We use fresh ingredients and spices brought directly from Lebanon.", hT: "Opening Hours", navMenu: "The Menu", navHorarios: "Location", btnExplore: "Explore Menu", starsTitle: "Chef's <br><span class='text-orange-400 italic font-accent lowercase text-2xl normal-case'>specials</span>", loading: "Loading delicacies...", heroTitle: "Authentic Taste <br><span class='font-accent italic text-orange-400 normal-case lowercase text-3xl sm:text-4xl md:text-7xl'>of Beirut</span>", btnHow: "How to get here", brandSub: "Lebanese Restaurant", locTitle: "Location", btnCall: "Call", btnMap: "Map", delTitle: "Delivery", delDesc: "Enjoy the best of Lebanon at home. Delivery available in Gràcia and surroundings.", delBadge: "Fast and safe delivery", days: "Monday - Sunday", openAlways: "Open every day of the week.", artesanal: "Handmade", owner: "Owner Access", rights: "© 2026 Sannin Restaurant. All rights reserved.",
-                catVeg: "VEGETABLES", catEmp: "DUMPLINGS", catCom: "COMBINATION PLATES", catCou: "COUSCOUS", catPos: "DESSERTS", catBeb: "DRINKS"
-            }
+            es: { sub: "Desde 1993 compartiendo cultura en Gràcia", masaT: "Cocina Tradicional", masaD: "Recetas familiares transmitidas por generaciones. Utilizamos ingredientes frescos y especias traídas directamente del Líbano.", hT: "Horarios", navMenu: "La Carta", navHorarios: "Ubicación", btnExplore: "Explorar Menú", starsTitle: "Sugerencias <br><span class='text-orange-400 italic font-accent lowercase text-2xl normal-case'>del chef</span>", loading: "Preparando delicias...", heroTitle: "Sabor Auténtico <br><span class='font-accent italic text-orange-400 normal-case lowercase text-3xl sm:text-4xl md:text-7xl'>de Beirut</span>", btnHow: "Cómo llegar", brandSub: "Restaurante Libanés", locTitle: "Ubicación", btnCall: "Llamar", btnMap: "Mapa", delTitle: "A domicilio", delDesc: "Disfruta de lo mejor del Líbano en tu casa. Reparto disponible en Gràcia y barrios colindantes.", delBadge: "Envío rápido e seguro", days: "Lunes - Domingo", openAlways: "Abierto todos los días de la semana.", artesanal: "Artesanal", owner: "Acceso Propietario", rights: "© 2026 Restaurante Sannin. Todos los derechos reservados.", catVeg: "VEGETALES", catEmp: "EMPANADILLAS", catCom: "COMBINADOS", catCou: "COUS-COUS", catOtr: "OTROS", catPos: "POSTRES", catBeb: "BEBIDAS" },
+            cat: { sub: "Des de 1993 compartint cultura a Gràcia", masaT: "Cuina Tradicional", masaD: "Receptes familiars transmeses per generacions. Utilitzem ingredients frescos i espècies portades directament del Líban.", hT: "Horaris", navMenu: "La Carta", navHorarios: "Ubicació", btnExplore: "Explorar Menú", starsTitle: "Suggeriments <br><span class='text-orange-400 italic font-accent lowercase text-2xl normal-case'>del xef</span>", loading: "Preparant delícies...", heroTitle: "Sabor Autèntic <br><span class='font-accent italic text-orange-400 normal-case lowercase text-3xl sm:text-4xl md:text-7xl'>de Beirut</span>", btnHow: "Com arribar", brandSub: "Restaurant Libanès", locTitle: "Ubicació", btnCall: "Trucar", btnMap: "Mapa", delTitle: "A domicili", delDesc: "Gaudeix del millor del Líban a casa teva. Repartiment disponible a Gràcia i voltants.", delBadge: "Enviament ràpid i segur", days: "Dilluns - Diumenge", openAlways: "Obert tots els dies de la setmana.", artesanal: "Artesanal", owner: "Accés Propietari", rights: "© 2026 Restaurant Sannin. Tots els drets reservats.", catVeg: "VEGETALS", catEmp: "EMPANADILLES", catCom: "COMBINATS", catCou: "COUS-COUS", catOtr: "ALTRES", catPos: "POSTRES", catBeb: "BEGUDES" },
+            en: { sub: "Sharing culture in Gràcia since 1993", masaT: "Traditional Kitchen", masaD: "Family recipes passed down through generations. We use fresh ingredients and spices brought directly from Lebanon.", hT: "Opening Hours", navMenu: "The Menu", navHorarios: "Location", btnExplore: "Explore Menu", starsTitle: "Chef's <br><span class='text-orange-400 italic font-accent lowercase text-2xl normal-case'>specials</span>", loading: "Loading delicacies...", heroTitle: "Authentic Taste <br><span class='font-accent italic text-orange-400 normal-case lowercase text-3xl sm:text-4xl md:text-7xl'>of Beirut</span>", btnHow: "How to get here", brandSub: "Lebanese Restaurant", locTitle: "Location", btnCall: "Call", btnMap: "Map", delTitle: "Delivery", delDesc: "Enjoy the best of Lebanon at home. Delivery available in Gràcia and surroundings.", delBadge: "Fast and safe delivery", days: "Monday - Sunday", openAlways: "Open every day of the week.", artesanal: "Handmade", owner: "Owner Access", rights: "© 2026 Sannin Restaurant. All rights reserved.", catVeg: "VEGETABLES", catEmp: "DUMPLINGS", catCom: "COMBINATION PLATES", catCou: "COUSCOUS", catOtr: "OTHERS", catPos: "DESSERTS", catBeb: "DRINKS" }
         };
 
         const defaultMenu = {
             estrellas: [ 
                 { id: 1, name: "Mixto Especial Sannin", price: "18,40€", desc: { es: "Shawarma, homos, baba gagnuc, kebe, falafel y ensalada variada.", cat: "Shawarma, homos, baba gagnuc, kebe, falafel i amanida variada.", en: "Shawarma, homos, baba gagnuc, kebe, falafel and mixed salad." }, available: true },
-                { id: 2, name: "Cous-Cous Pollo", price: "17,90€", desc: { es: "Pollo, calabacín, zanahoria, garbanzos y sémola fina cocinado a fuego lento.", cat: "Pollastre, carbassó, pastanaga, cigrons i sèmola fina cuinat a foc lent.", en: "Chicken, zucchini, carrot, chickpeas and fine semolina slow-cooked." }, available: true },
-                { id: 3, name: "Homos Lahme", price: "8,90€", desc: { es: "Crema de garbanzos con carne picada de ternera y piñones.", cat: "Crema de cigrons amb carn picada de vedella i pinyons.", en: "Chickpea cream with minced beef and pine nuts." }, available: true }
+                { id: 2, name: "Cous-Cous Pollo", price: "17,90€", desc: { es: "Pollo, calabacín, zanahoria, garbanzos y sémola fina.", cat: "Pollastre, pastanaga, cigrons i sèmola fina.", en: "Chicken, carrots, chickpeas and fine semolina." }, available: true },
+                { id: 3, name: "Homos Lahme", price: "8,90€", desc: { es: "Crema de garbanzos con carne picada de ternera y piñones.", cat: "Crema de cigrons amb carn picada de vedella i pinyons.", en: "Chickpea cream with minced beef and pine nuts." }, available: true },
+                { id: 4, name: "Warak Inab (Sugerencia)", price: "8,50€", desc: { es: "6 rollos de hojas de parra rellenas de arroz y verduras.", cat: "6 fulles de parra farcides d'arròs i verdures.", en: "6 stuffed vine leaves with rice and vegetables." }, available: true }
             ],
             vegetales: [ 
-                { id: 4, name: "Plato de Humus", price: "7,90€", desc: { es: "Crema de garbanzos molidos con crema de sésamo y limón.", cat: "Crema de cigrons molts amb crema de sèsam i llimona.", en: "Mashed chickpeas with sesame cream and lemon." }, available: true },
-                { id: 5, name: "Plato de Baba Gagnuc", price: "7,90€", desc: { es: "Berenjena asada con crema de sésamo, limón, aceite de oliva y perejil.", cat: "Albergínia escalivada amb crema de sèsam, llimona, oli d'oliva i julivert.", en: "Roasted eggplant with sesame cream, lemon, olive oil and parsley." }, available: true },
-                { id: 6, name: "Plato de Tabule", price: "10,40€", desc: { es: "Ensalada de perejil, tomate, cebolleta, sémola de trigo y menta.", cat: "Amanida de julivert, tomàquet, ceba tendra, sèmola de blat i menta.", en: "Parsley salad, tomato, spring onion, wheat semolina and mint." }, available: true },
-                { id: 7, name: "Plato Falafel", price: "10,50€", desc: { es: "6 Croquetas vegetales con salsa de yogur y ensalada fresca.", cat: "6 Croquetes vegetals amb salsa de iogurt i amanida fresca.", en: "6 Vegetable croquettes with yogurt sauce and fresh salad." }, available: true },
-                { id: 8, name: "Warak Inab", price: "8,50€", desc: { es: "Hojas de parra rellenas de arroz y verduras, acompañadas de magmus.", cat: "Fulles de parra farcides d'arròs i verdures, acompanyades de magmus.", en: "Vine leaves stuffed with rice and vegetables, served with magmus." }, available: true },
-                { id: 12, name: "Jaiki", price: "7,90€", desc: { es: "Crema de queso fresco con menta y pepino rallado.", cat: "Crema de formatge fresc amb menta i cogombre ratllat.", en: "Fresh cheese cream with mint and grated cucumber." }, available: true },
-                { id: 10, name: "Mohamara", price: "7,90€", desc: { es: "Picada de nueces, pimientos y melaza de granada. Picante.", cat: "Picada de nous, pebrots i melassa de magrana. Picant.", en: "Walnut mince, peppers and pomegranate molasses. Spicy." }, available: true },
-                { id: 11, name: "Magmus", price: "7,90€", desc: { es: "Escalivada de berenjena asada, pimientos, ajo y zumo de granada.", cat: "Escalivada d'albergínia rostida, pebrots, all i suc de magrana.", en: "Roasted eggplant escalivada, peppers, garlic and pomegranate juice." }, available: true }
+                { id: 5, name: "Plato de Humus", price: "7,90€", desc: { es: "Crema de garbanzos molidos con crema de sésamo y limón.", cat: "Crema de cigrons molts amb crema de sèsam i llimona.", en: "Mashed chickpeas with sesame cream and lemon." }, available: true },
+                { id: 6, name: "Humus (Medio Plato)", price: "5,80€", desc: { es: "Ración individual de garbanzos molidos.", cat: "Ració individual de cigrons molts.", en: "Individual portion of mashed chickpeas." }, available: true },
+                { id: 7, name: "Plato de Baba Gagnuc", price: "7,90€", desc: { es: "Berenjena asada con crema de sésamo, limón y aceite de oliva.", cat: "Albergínia escalivada amb crema de sèsam i llimona.", en: "Roasted eggplant with sesame cream and lemon." }, available: true },
+                { id: 8, name: "Baba Gagnuc (Medio Plato)", price: "5,80€", desc: { es: "Ración individual de berenjena asada.", cat: "Ració individual d'albergínia escalivada.", en: "Individual portion of roasted eggplant." }, available: true },
+                { id: 9, name: "Moussaka Vegetal con Arroz", price: "10,40€", desc: { es: "Garbanzos, pimientos, berenjena, calabacín y cebolla.", cat: "Cigrons, pebrots, albergínia, carbassó i ceba.", en: "Chickpeas, peppers, eggplant, zucchini and onion." }, available: true },
+                { id: 10, name: "Ensalada de Barsakan", price: "9,40€", desc: { es: "Mezclum con tomate, pepino, queso de cabra y feta.", cat: "Mesclum amb tomàquet, pepino, formatge de cabra i feta.", en: "Mixed salad with tomato, cucumber, goat cheese and feta." }, available: true },
+                { id: 11, name: "Plato de Tabule", price: "10,40€", desc: { es: "Ensalada de perejil, tomate, sémola de trigo y menta.", cat: "Amanida de julivert, tomàquet, sèmola de blat i menta.", en: "Parsley salad, tomato, wheat semolina and mint." }, available: true },
+                { id: 12, name: "Plato Falafel con Ensalada", price: "10,50€", desc: { es: "6 Croquetas vegetales con salsa de yogur y ensalada.", cat: "6 Croquetes vegetals amb salsa de iogurt i amanida.", en: "6 Vegetable croquettes with yogurt sauce and salad." }, available: true },
+                { id: 13, name: "Plato Mohamara", price: "7,90€", desc: { es: "Picada de nueces, pimientos y melaza de granada. Picante.", cat: "Picada de nous, pebrots i melassa de magrana. Picant.", en: "Walnut mince, peppers and pomegranate molasses. Spicy." }, available: true },
+                { id: 14, name: "Plato de Magmus", price: "7,90€", desc: { es: "Escalivada de berenjena asada, pimientos y zumo de granada.", cat: "Escalivada d'albergínia rostida, pebrots i suc de magrana.", en: "Roasted eggplant escalivada, peppers and pomegranate juice." }, available: true }
             ],
             empanadillas: [
                 { id: 15, name: "Fatayer Sabanec", price: "3,90€", desc: { es: "Empanadilla artesana de espinaca.", cat: "Empanadilha artesana d'espinacs.", en: "Handmade spinach pastry." }, available: true },
                 { id: 16, name: "Kebe (Unidad)", price: "3,90€", desc: { es: "Croqueta de sémola de trigo rellena con carne picada.", cat: "Croqueta de sèmola de blat farcida amb carn picada.", en: "Wheat semolina croquette stuffed with minced meat." }, available: true }
             ],
             combinados: [
-                { id: 26, name: "Combinado Vegetal", price: "15,90€", desc: { es: "Falafel, humus, baba gagnuc, warak inab y ensalada.", cat: "Falafel, humus, baba gagnuc, warak inab i amanida.", en: "Falafel, humus, baba gagnuc, warak inab and salad." }, available: true },
-                { id: 27, name: "Combinado Xix Tawuk", price: "16,40€", desc: { es: "Pollo adobado con humus, baba gagnuc y ensalada.", cat: "Pollastre adobat amb humus, baba gagnuc i amanida.", en: "Marinated chicken with humus, baba gagnuc and salad." }, available: true },
-                { id: 28, name: "Combinado Shawarma", price: "16,40€", desc: { es: "Cordero con salsa yogur, humus, baba gagnuc y ensalada.", cat: "Xai amb salsa iogurt, humus, baba gagnuc i amanida.", en: "Lamb with yogurt sauce, humus, baba gagnuc and salad." }, available: true }
+                { id: 17, name: "Combinado Xix tawuk", price: "16,40€", desc: { es: "Pollo adobado con humus, baba gagnuc y ensalada.", cat: "Pollastre adobat amb humus, baba gagnuc i amanida.", en: "Marinated chicken with humus, baba gagnuc and salad." }, available: true },
+                { id: 18, name: "Combinado Sannin", price: "18,40€", desc: { es: "Cordero asado, humus, baba gagnuc, falafel, kebe y ensalada.", cat: "Xai rostir, humus, baba gagnuc, falafel, kebe i amanida.", en: "Roasted lamb, humus, baba gagnuc, falafel, kebe and salad." }, available: true },
+                { id: 19, name: "Combinado Shawarma", price: "16,40€", desc: { es: "Cordero con humus, baba gagnuc y ensalada.", cat: "Xai amb humus, baba gagnuc i amanida.", en: "Lamb with humus, baba gagnuc and salad." }, available: true },
+                { id: 20, name: "Combinado Vegetal", price: "15,90€", desc: { es: "Falafel, humus, baba gagnuc, warak inab y ensalada.", cat: "Falafel, humus, baba gagnuc, warak inab i amanida.", en: "Falafel, humus, baba gagnuc, warak inab and salad." }, available: true },
+                { id: 21, name: "Combinado Kafta", price: "16,40€", desc: { es: "Ternera picada especiada, humus, baba gagnuc y ensalada.", cat: "Vedella picada amb humus, baba gagnuc i amanida.", en: "Minced beef with humus, baba gagnuc and salad." }, available: true },
+                { id: 22, name: "Xix Tawuk Plato con Arroz", price: "11,90€", desc: { es: "Pollo a la plancha adobado con ajo y cilantro.", cat: "Pollastre a la planxa adobat amb all i julivert.", en: "Grilled chicken marinated with garlic and parsley." }, available: true },
+                { id: 23, name: "Kafta Plato con Ensalada", price: "11,90€", desc: { es: "Ternera picada con especias a la plancha.", cat: "Vedella picada amb espècies a la planxa.", en: "Spiced minced beef grilled." }, available: true },
+                { id: 24, name: "Kebe Plato con Ensalada", price: "11,90€", desc: { es: "3 croquetas de sémola rellenas con carne picada.", cat: "3 croquetes de sèmola farcides amb carn picada.", en: "3 semolina croquettes stuffed with minced meat." }, available: true },
+                { id: 25, name: "Shawarma Plato con Ensalada", price: "11,90€", desc: { es: "Cordero asado a la libanesa con ensalada.", cat: "Xai rostir a la libanesa amb amanida.", en: "Lebanese-style roasted lamb with salad." }, available: true }
             ],
             couscous: [
-                { id: 30, name: "Cous-Cous Vegetal", price: "15,90€", desc: { es: "Sémola con verduras de temporada en rico caldo vegetal.", cat: "Sèmola amb verdures de temporada en ric brou vegetal.", en: "Semolina with seasonal vegetables in rich vegetable broth." }, available: true }
+                { id: 30, name: "Cous-Cous Pollo", price: "17,90€", desc: { es: "Pollo, verduras, garbanzos y sémola fina.", cat: "Pollastre, verdures, cigrons i sèmola fina.", en: "Chicken, vegetables, chickpeas and fine semolina." }, available: true },
+                { id: 31, name: "Cous-Cous Vegetal", price: "15,90€", desc: { es: "Verduras variadas en caldo vegetal con sémola.", cat: "Verdures variades en brou vegetal amb sèmola.", en: "Mixed vegetables in vegetable broth with semolina." }, available: true }
+            ],
+            otros: [
+                { id: 32, name: "Arayes Gibne", price: "9,90€", desc: { es: "Quesadilla de 5 quesos, tomate y cebolla.", cat: "Quesadilla de 5 formatges, tomàquet i ceba.", en: "5-cheese quesadilla, tomato and onion." }, available: true },
+                { id: 33, name: "Patatas Bravas", price: "5,40€", desc: { es: "Patatas bravas caseras con salsa brava.", cat: "Patates braves casolanes amb salsa brava.", en: "Homemade spicy potatoes with brava sauce." }, available: true },
+                { id: 34, name: "Jaiki", price: "7,90€", desc: { es: "Queso fresco con menta y pepino rallado.", cat: "Formatge fresc amb menta i cogombre ratllat.", en: "Fresh cheese with mint and grated cucumber." }, available: true },
+                { id: 35, name: "Moussaka de Carne", price: "15,40€", desc: { es: "Pastel de ternera, berenjena y bechamel con arroz.", cat: "Pastís de vedella, albergínia i beixamel amb arròs.", en: "Beef, eggplant and bechamel pie with rice." }, available: true },
+                { id: 36, name: "Pan de Pita (1 unidad)", price: "0,90€", desc: { es: "Pan libanés tradicional.", cat: "Pa libanès tradicional.", en: "Traditional Lebanese bread." }, available: true }
             ],
             postres: [
-                { id: 35, name: "Baklava", price: "1,90€", desc: { es: "Hojaldre con pistachos, nueces y almíbar de azahar.", cat: "Pasta de full amb pistatxos, nous i almívar de tarongina.", en: "Filo pastry with pistachios, walnuts and orange blossom syrup." }, available: true },
-                { id: 36, name: "Aish As-Saraya", price: "4,90€", desc: { es: "Base de tostadas en almíbar, crema de nata y pistachos.", cat: "Base de torrades en almívar, crema de nata i pistatxos.", en: "Toast base in syrup, cream custard and pistachios." }, available: true }
+                { id: 37, name: "Baklava", price: "1,90€", desc: { es: "Hojaldre con pistachos, nueces y almíbar.", cat: "Pasta de full amb pistatxos, nous i almívar.", en: "Filo pastry with pistachios, walnuts and syrup." }, available: true },
+                { id: 38, name: "Aish As-Saraya", price: "4,90€", desc: { es: "Tostadas en almíbar, crema de nata y pistachos.", cat: "Torrades en almívar, crema de nata i pistatxos.", en: "Toast in syrup, cream custard and pistachios." }, available: true },
+                { id: 39, name: "Tamer", price: "1,90€", desc: { es: "Galleta con dátiles y sésamo.", cat: "Galeta amb dàtils i sèsam.", en: "Date and sesame cookie." }, available: true },
+                { id: 40, name: "Barasik", price: "1,90€", desc: { es: "Galleta con sésamo y pistachos.", cat: "Galeta amb sèsam i pistatxos.", en: "Sesame and pistachio cookie." }, available: true }
             ],
             bebidas: [
-                { id: 39, name: "Cerveza Almaza", price: "3,00€", desc: { es: "Cerveza libanesa de importación (botella).", cat: "Cervesa libanesa d'importació (ampolla).", en: "Imported Lebanese beer (bottle)." }, available: true },
-                { id: 40, name: "Vino Libanés", price: "19,00€", desc: { es: "Selección de vinos tintos del Valle de la Becá.", cat: "Selecció de vins negres de la Vall de la Becà.", en: "Selection of red wines from the Bekaa Valley." }, available: true }
+                { id: 41, name: "Cerveza Almaza", price: "3,00€", desc: { es: "Cerveza libanesa de importación.", cat: "Cervesa libanesa d'importació.", en: "Imported Lebanese beer." }, available: true },
+                { id: 42, name: "Vino Libanés (Botella)", price: "19,00€", desc: { es: "Vino del Valle de la Becá.", cat: "Vi de la Vall de la Becà.", en: "Wine from the Bekaa Valley." }, available: true },
+                { id: 43, name: "Cava Brut de la Casa", price: "15,00€", desc: { es: "Botella de cava selección.", cat: "Ampolla de cava selecció.", en: "Bottle of selected cava." }, available: true },
+                { id: 44, name: "Refrescos 0.33L", price: "2,50€", desc: { es: "Lata variada.", cat: "Llauna variada.", en: "Mixed can." }, available: true },
+                { id: 45, name: "Agua 0.50L", price: "1,80€", desc: { es: "Botella mineral.", cat: "Ampolla mineral.", en: "Mineral bottle." }, available: true }
             ]
         };
 
+        // On démarre avec le menu par défaut pour un affichage immédiat
+        window.menuData = defaultMenu;
+
         onAuthStateChanged(auth, async (user) => {
-            if (user || !firebaseConfig.apiKey) {
+            if (user) {
+                // Sync Settings
+                const sRef = doc(db, 'artifacts', appId, 'public', 'data', 'settings', 'main');
+                try {
+                    const snap = await getDoc(sRef);
+                    if (snap.exists()) window.adminSettings = snap.data();
+                    else await setDoc(sRef, window.adminSettings);
+                } catch(e) {}
+
+                // Sync Menu
                 const mRef = doc(db, 'artifacts', appId, 'public', 'data', 'menu', 'main');
                 onSnapshot(mRef, (snap) => {
-                    window.menuData = snap.exists() ? snap.data().content : defaultMenu;
+                    if (snap.exists()) {
+                        window.menuData = snap.data().content;
+                    }
+                    // Qu'il y ait des données ou non sur Firebase, on affiche et on cache le spinner
+                    render(); 
+                    hideLoad();
+                }, (error) => {
+                    console.error("Firebase Sync Error:", error);
                     render(); hideLoad();
-                }, (e) => { window.menuData = defaultMenu; render(); hideLoad(); });
+                });
             }
         });
-        if(firebaseConfig.apiKey) signInAnonymously(auth); else { window.menuData = defaultMenu; render(); hideLoad(); }
+        
+        signInAnonymously(auth).catch(e => { render(); hideLoad(); });
 
+        // Vérification de l'admin au chargement
+        try {
+            if (sessionStorage.getItem('sanninAdminAuth') === 'true') window.isAdmin = true;
+        } catch(e) {}
+
+        window.toggleMenu = () => { document.getElementById('mobile-menu').classList.toggle('open'); };
         window.setLang = (l) => { window.currentLang = l; localStorage.setItem('sanninLang', l); render(); };
 
         window.render = () => {
@@ -379,19 +406,22 @@
             document.getElementById('txt-delivery-title').innerText = t.delTitle;
             document.getElementById('txt-delivery-desc').innerText = t.delDesc;
             document.getElementById('txt-delivery-badge').innerText = t.delBadge;
+            
             document.getElementById('tab-vegetales').innerText = t.catVeg;
             document.getElementById('tab-empanadillas').innerText = t.catEmp;
             document.getElementById('tab-combinados').innerText = t.catCom;
             document.getElementById('tab-couscous').innerText = t.catCou;
+            document.getElementById('tab-otros').innerText = t.catOtr;
             document.getElementById('tab-postres').innerText = t.catPos;
             document.getElementById('tab-bebidas').innerText = t.catBeb;
+            
             document.getElementById('txt-artesanal').innerText = t.artesanal;
             document.getElementById('txt-masa-title').innerText = t.masaT;
             document.getElementById('txt-masa-desc').innerText = t.masaD;
             document.getElementById('owner-access-btn').innerText = t.owner;
             document.getElementById('txt-footer-rights').innerText = t.rights;
             
-            document.getElementById('estrellas-list').innerHTML = window.menuData.estrellas.map(i => itemHtml(i, 'estrellas', true)).join('');
+            document.getElementById('estrellas-list').innerHTML = (window.menuData.estrellas || []).map(i => itemHtml(i, 'estrellas', true)).join('');
             document.getElementById('dynamic-menu').innerHTML = (window.menuData[window.currentTab] || []).map(i => itemHtml(i, window.currentTab, false)).join('');
             
             document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.id === 'lang-' + window.currentLang));
@@ -415,43 +445,70 @@
             window.currentTab = c; 
             document.querySelectorAll('#tabs-container button').forEach(b => b.classList.remove('tab-active')); 
             const activeBtn = document.getElementById('tab-'+c);
-            if(activeBtn) {
-                activeBtn.classList.add('tab-active'); 
-                activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-            }
+            if(activeBtn) { activeBtn.classList.add('tab-active'); activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }); }
             render(); 
         };
         
         window.upVal = (c, id, f, v) => { 
             const i = window.menuData[c].find(x => x.id === id); 
             if(i) {
-                if (f === 'desc') {
-                    if (typeof i.desc !== 'object') i.desc = { es: i.desc, cat: i.desc, en: i.desc };
-                    i.desc[window.currentLang] = v;
-                } else { i[f] = v; }
+                if (f === 'desc') { if (typeof i.desc !== 'object') i.desc = { es: i.desc, cat: i.desc, en: i.desc }; i.desc[window.currentLang] = v; }
+                else { i[f] = v; }
             }
         };
 
         window.openLogin = () => document.getElementById('login-modal').classList.remove('hidden');
         window.closeLogin = () => document.getElementById('login-modal').classList.add('hidden');
-        window.attemptLogin = () => { if (document.getElementById('login-user').value === "admin") { window.isAdmin = true; render(); window.closeLogin(); } };
+        window.attemptLogin = () => { 
+            const u = document.getElementById('login-user').value.trim();
+            const p = document.getElementById('login-pass').value.trim();
+            if (u === window.adminSettings.user && p === window.adminSettings.pass) { 
+                window.isAdmin = true; 
+                try { sessionStorage.setItem('sanninAdminAuth', 'true'); } catch(e) {}
+                render(); 
+                window.closeLogin(); 
+            } else {
+                document.getElementById('login-error').classList.remove('hidden');
+            }
+        };
+
+        window.openSettings = () => { document.getElementById('new-user').value = window.adminSettings.user; document.getElementById('settings-modal').classList.remove('hidden'); };
+        window.closeSettings = () => document.getElementById('settings-modal').classList.add('hidden');
+        window.updateCredentials = async () => {
+            const u = document.getElementById('new-user').value.trim();
+            const p = document.getElementById('new-pass').value.trim();
+            if(u && p) {
+                window.adminSettings = { user: u, pass: p };
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'settings', 'main'), window.adminSettings);
+                alert("Claves actualizadas."); window.closeSettings(); render();
+            }
+        };
+
         window.saveChanges = async () => {
             const btn = document.getElementById('save-btn'); btn.innerText = "Guardando...";
             try { await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'menu', 'main'), { content: window.menuData }); alert("¡Menú guardado!"); } catch(e) { alert("Error."); } btn.innerText = "Guardar";
         };
-        window.logoutAdmin = () => { window.isAdmin = false; render(); };
+
+        window.logoutAdmin = () => { window.isAdmin = false; try { sessionStorage.removeItem('sanninAdminAuth'); } catch(e) {} render(); };
+        
         function syncAdminUI() { 
             const bar = document.getElementById('admin-bar');
             bar.classList.toggle('hidden', !window.isAdmin); 
             document.getElementById('main-nav').style.top = window.isAdmin ? (window.innerWidth < 640 ? '34px' : '40px') : '0';
+            if(window.isAdmin) document.getElementById('current-admin-user').innerText = "HOLA, " + window.adminSettings.user;
         }
-        function hideLoad() { document.getElementById('loading-spinner').classList.add('hidden'); document.getElementById('menu-content').classList.remove('hidden'); }
-        function addItem(c) {
+
+        window.addItem = (c) => {
+            if(!window.menuData[c]) window.menuData[c] = [];
             const newItem = { id: Date.now(), name: "NUEVO PLATO", price: "0,00€", desc: { es: "Descripción...", cat: "Descripció...", en: "Description..." }, available: true };
             window.menuData[c].unshift(newItem);
             render();
+        };
+
+        function hideLoad() { 
+            document.getElementById('loading-spinner').classList.add('hidden'); 
+            document.getElementById('menu-content').classList.remove('hidden'); 
         }
-        window.addItem = addItem;
         window.addEventListener('resize', syncAdminUI);
     </script>
 </body>
