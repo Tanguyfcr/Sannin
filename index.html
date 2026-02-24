@@ -214,7 +214,7 @@
                             <span class="bg-orange-700 text-white text-[9px] font-black px-4 py-1.5 tracking-[0.2em] uppercase">Artesanal</span>
                             <h3 id="txt-masa-title" class="font-header text-xl uppercase text-stone-800">Cocina Tradicional</h3>
                         </div>
-                        <p id="txt-masa-desc" class="text-stone-500 text-sm leading-relaxed max-w-xl italic font-light">Recetas familiares transmitidas por generations. Utilizamos ingredientes frescos y especias traídas directamente del Líbano.</p>
+                        <p id="txt-masa-desc" class="text-stone-500 text-sm leading-relaxed max-w-xl italic font-light">Recetas familiares transmitidas por generations. Utilizamos ingredientes frescos y especias traídas directement del Líbano.</p>
                     </div>
                 </div>
             </div>
@@ -266,9 +266,18 @@
         import { getFirestore, doc, setDoc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // Initialisation de Firebase
-        const firebaseConfig = { apiKey: "", authDomain: "", projectId: "", storageBucket: "", messagingSenderId: "", appId: "" };
+        const firebaseConfig = {
+            apiKey: "AIzaSyD7tNaCFZqG9TewVmDLbUw5io4i11n22X0",
+            authDomain: "sannin-3c77c.firebaseapp.com",
+            projectId: "sannin-3c77c",
+            storageBucket: "sannin-3c77c.firebasestorage.app",
+            messagingSenderId: "346283737443",
+            appId: "1:346283737443:web:be4679473269e746d69356",
+            measurementId: "G-L76CGYDR69"
+        };
+
         const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
+        const auth = auth = getAuth(app);
         const db = getFirestore(app);
         const appId = "sannin-restaurant-pro-v1";
 
@@ -279,7 +288,7 @@
         window.currentLang = localStorage.getItem('sanninLang') || 'es';
 
         const i18n = {
-            es: { sub: "Desde 1993 compartiendo cultura en Gràcia", masaT: "Cocina Tradicional", masaD: "Recetas familiares transmitidas por generaciones. Utilizamos ingredientes frescos y especias traídas directamente del Líbano.", hT: "Horarios", navMenu: "La Carta", navHorarios: "Ubicación", btnExplore: "Explorar Menú", starsTitle: "Sugerencias <br><span class='text-orange-400 italic font-accent lowercase text-2xl normal-case'>del chef</span>", loading: "Preparando delicias..." },
+            es: { sub: "Desde 1993 compartiendo cultura en Gràcia", masaT: "Cocina Tradicional", masaD: "Recetas familiares transmitidas por generaciones. Utilizamos ingredientes frescos y especias traídas directement del Líbano.", hT: "Horarios", navMenu: "La Carta", navHorarios: "Ubicación", btnExplore: "Explorar Menú", starsTitle: "Sugerencias <br><span class='text-orange-400 italic font-accent lowercase text-2xl normal-case'>del chef</span>", loading: "Preparando delicias..." },
             cat: { sub: "Des de 1993 compartint cultura a Gràcia", masaT: "Cuina Tradicional", masaD: "Receptes familiars transmeses per generacions. Utilitzem ingredients frescos i espècies portades directament del Líban.", hT: "Horaris", navMenu: "La Carta", navHorarios: "Ubicació", btnExplore: "Explorar Menú", starsTitle: "Suggeriments <br><span class='text-orange-400 italic font-accent lowercase text-2xl normal-case'>del xef</span>", loading: "Preparant delícies..." },
             en: { sub: "Sharing culture in Gràcia since 1993", masaT: "Traditional Kitchen", masaD: "Family recipes passed down through generations. We use fresh ingredients and spices brought directly from Lebanon.", hT: "Opening Hours", navMenu: "The Menu", navHorarios: "Location", btnExplore: "Explore Menu", starsTitle: "Chef's <br><span class='text-orange-400 italic font-accent lowercase text-2xl normal-case'>specials</span>", loading: "Loading delicacies..." }
         };
